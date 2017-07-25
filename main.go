@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	sCli "github.com/sinlov/golang_utils/cli"
 	"github.com/sinlov/golang_utils/cfg"
-	nig "github.com/ShubNig/AubNig/aubnig"
+	aubnig "github.com/ShubNig/AubNig/aubnig"
 	"path/filepath"
 )
 
@@ -49,8 +49,8 @@ type makerT struct {
 
 var maker = &cli.Command{
 	// child cli must has Name
-	Name: nig.CLI_CHILD_MAKER_NAME,
-	Desc: nig.CLI_CHILD_MAKER_DESC,
+	Name: aubnig.CLI_CHILD_MAKER_NAME,
+	Desc: aubnig.CLI_CHILD_MAKER_DESC,
 	Argv: func() interface{} {
 		return new(makerT)
 	},
@@ -62,7 +62,7 @@ var maker = &cli.Command{
 		projectPath := filepath.Join(sCli.CurrentDirectory(), projectName)
 		group := argv.Group
 		if group == "" {
-			group = nig.DEFAULT_GROUP
+			group = aubnig.DEFAULT_GROUP
 
 		}
 		moduleName := argv.ModuleName
@@ -78,17 +78,17 @@ var maker = &cli.Command{
 		}
 		versionName := argv.VersionName
 		if versionName == "" {
-			versionName = nig.DEFAULT_VERSION_NAME
+			versionName = aubnig.DEFAULT_VERSION_NAME
 		}
 		versionCode := argv.VersionCode
 		if versionCode == 0 {
-			versionCode = nig.DEFAULT_VERSION_CODE
+			versionCode = aubnig.DEFAULT_VERSION_CODE
 		}
 		if tempUrl == "" {
-			gitTempUrl := cfgFile.Read(nig.KEY_NODE_GIT, nig.KEY_GIT_URL)
+			gitTempUrl := cfgFile.Read(aubnig.KEY_NODE_GIT, aubnig.KEY_GIT_URL)
 			if gitTempUrl == "" {
 				// for test
-				gitTempUrl = nig.DEFAULT_GIT_URL
+				gitTempUrl = aubnig.DEFAULT_GIT_URL
 			}
 			tempUrl = gitTempUrl
 		}
