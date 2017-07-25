@@ -10,5 +10,5 @@ I am AubNig, a little servant at your services.
 # Just in develop test
 
 ```sh
-maker -p build -m demoview -i mdl-test-view -d sinlov -g "com.sinlov.android" -n "1.0.0" -c "1000000"
+maker -p build -m demoview -i mdl-demo-view -d sinlov -g "com.sinlov.android" -n "1.0.0" -c "1000000"
 ```

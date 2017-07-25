@@ -86,11 +86,12 @@ var maker = &cli.Command{
 		}
 		if tempUrl == "" {
 			gitTempUrl := cfgFile.Read(aubnig.KEY_NODE_GIT, aubnig.KEY_GIT_URL)
-			if gitTempUrl == "" {
-				// for test
-				gitTempUrl = aubnig.DEFAULT_GIT_URL
-			}
 			tempUrl = gitTempUrl
+		}
+
+		if aubnig.MODE == "dev"{
+			tempUrl = aubnig.DEFAULT_GIT_URL
+			projectPath = aubnig.DEV_PROJ_PATH
 		}
 
 		ctx.String("\n=== Your setting start ===\n")
