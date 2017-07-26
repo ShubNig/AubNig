@@ -91,7 +91,7 @@ var maker = &cli.Command{
 
 		if aubnig.MODE == "dev"{
 			tempUrl = aubnig.DEFAULT_GIT_URL
-			projectPath = aubnig.DEV_PROJ_PATH
+			projectPath = aubnig.DEV_PROJECT_PATH
 		}
 
 		ctx.String("\n=== Your setting start ===\n")
@@ -122,7 +122,7 @@ type rootT struct {
 }
 
 var root = &cli.Command{
-	Desc: "This is ShubNig Utils command",
+	Desc: "This is AubNig Utils command",
 	// Argv is a factory function of argument object
 	// ctx.Argv() is if Command.Argv == nil or Command.Argv() is nil
 	Argv: func() interface{} {
@@ -131,7 +131,7 @@ var root = &cli.Command{
 	Fn: func(ctx *cli.Context) error {
 		argv := ctx.Argv().(*rootT)
 		if argv.Version {
-			ctx.String("Thanks to use ShubNig Utils \nNow version v%s", VERSION_NAME)
+			ctx.String("Thanks to use AubNig Utils \nNow version v%s", VERSION_NAME)
 		}
 		return nil
 	},

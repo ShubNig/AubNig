@@ -3,9 +3,9 @@ package aubnig
 const (
 	// mode has dev test prd
 	MODE string = "dev"
-	DEV_PROJ_PATH string = "/Users/sinlov/goPath/src/github.com/ShubNig/AubNig"
+	DEV_PROJECT_PATH string = "/Users/sinlov/goPath/src/github.com/ShubNig/AubNig"
 
-	DEFAULT_GIT_URL string = "https://github.com/MDL-Sinlov/MDL_Android-Temp.git"
+	DEFAULT_GIT_URL string = "https://github.com/ShubNig/AubNig-Nexus-Template.git"
 	DEFAULT_GIT_TAG string = ""
 	DEFAULT_VERSION_NAME string = "0.0.1"
 	DEFAULT_VERSION_CODE int = 1
