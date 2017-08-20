@@ -8,13 +8,16 @@ import (
 	"io/ioutil"
 	sCli "github.com/sinlov/golang_utils/cli"
 	"github.com/sinlov/golang_utils/cfg"
-	aubnig "github.com/ShubNig/AubNig/aubnig"
+	"github.com/ShubNig/AubNig/aubnig"
 	"path/filepath"
+	"strings"
 )
 
 const (
 	VERSION_NAME string = "0.1.0"
 )
+
+var runMode string
 
 func readFileAsString(filePath string) (string, error) {
 	b, err := ioutil.ReadFile(filePath)
@@ -32,6 +35,35 @@ func isFileExist(filePath string) bool {
 	}
 	defer f.Close()
 	return true
+}
+
+// if not find config Path just try to use GOPATH code github.com/ShubNig/AubNig/config.conf
+// if code aubnig.conf and run root path not found, return ""
+func try2FindOutConfigPath() string {
+	configFilePath := filepath.Join(sCli.CommandPath(), "aubnig.conf")
+	if isFileExist(configFilePath) {
+		cfgFile.InitCfg(configFilePath)
+		return configFilePath
+	}
+	fmt.Printf("\nWarning!\ncan not find config.conf file at aubnig path: %s\n", sCli.CommandPath())
+	go_path_env := os.Getenv("GOPATH")
+	go_path_env_s := strings.Split(go_path_env, ":")
+	is_find_dev_conf := false
+	for _, path := range go_path_env_s {
+		futurePath := filepath.Join(path, "src", "github.com", "ShubNig", "AubNig", "aubnig.conf")
+		if isFileExist(futurePath) {
+			configFilePath = futurePath
+			is_find_dev_conf = true
+			break
+		}
+	}
+	if is_find_dev_conf {
+		fmt.Printf("just use dev config at path: %s\n", configFilePath)
+	} else {
+		fmt.Printf("can not load config at path: %s\nExit 1\n", configFilePath)
+		configFilePath = ""
+	}
+	return configFilePath
 }
 
 type makerT struct {
@@ -89,7 +121,7 @@ var maker = &cli.Command{
 			tempUrl = gitTempUrl
 		}
 
-		if aubnig.MODE == "dev"{
+		if runMode == "dev" {
 			tempUrl = aubnig.DEFAULT_GIT_URL
 			projectPath = aubnig.DEV_PROJECT_PATH
 		}
@@ -111,7 +143,7 @@ var maker = &cli.Command{
 
 func checkInputStringParams(stringParams string, showParams string) error {
 	if stringParams == "" {
-		return errors.New("\nYou are not setting [ " + showParams + " ] exit!")
+		return errors.New(fmt.Sprintf("\nYou are not setting [ %s ] exit!", showParams))
 	}
 	return nil
 }
@@ -146,14 +178,16 @@ func main() {
 		fmt.Println("Warning you input is error please use -h or help to see help")
 		os.Exit(1)
 	}
-	configFilePath := sCli.CommandPath() + "/config.conf"
-	if isFileExist(configFilePath) {
-		cfgFile.InitCfg(configFilePath)
+	configFilePath := try2FindOutConfigPath()
+	if configFilePath == "" {
+		os.Exit(1)
 	} else {
-		fmt.Println("can not find config.conf file at root path: " + sCli.CommandPath())
-		//os.Exit(1)
+		cfgFile.InitCfg(configFilePath)
 	}
-
+	runMode = cfgFile.Read(aubnig.KEY_NODE_AUBNIG, aubnig.KEY_RUN_MODE)
+	if runMode == "dev" {
+		fmt.Printf("===> now in %s mode all setting will be default <===\n", runMode)
+	}
 	if err := cli.Root(root,
 		cli.Tree(help),
 		cli.Tree(maker),
