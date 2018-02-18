@@ -9,6 +9,13 @@ import (
 	sCli "github.com/sinlov/golang_utils/cli"
 )
 
+const (
+	defaultConfPath = "aubnig.conf"
+	gitRepo         = "AubNig"
+	gitUser         = "ShubNig"
+	gitHost         = "github.com"
+)
+
 // if not find config Path just try to use GOPATH code github.com/ShubNig/AubNig/config.conf
 // if code aubnig.conf and run root path not found, return ""
 func Try2FindOutConfigPath() (string, string) {
@@ -17,13 +24,13 @@ func Try2FindOutConfigPath() (string, string) {
 	if sFiles.IsFileExist(configFilePath) {
 		return configFilePath, projectPath
 	}
-	fmt.Printf("\nWarning!\ncan not find config.conf file at aubnig path: %s\n", sCli.CommandPath())
+	fmt.Printf("\nWarning!\nCan not find config.conf file at aubnig path: %s\n", sCli.CommandPath())
 	goPathEnv := os.Getenv("GOPATH")
 	goPathEnvS := strings.Split(goPathEnv, ":")
 	isFindDevConf := false
 	for _, path := range goPathEnvS {
-		codePath := filepath.Join(path, "src", "github.com", "ShubNig", "AubNig")
-		futurePath := filepath.Join(codePath, "aubnig.conf")
+		codePath := filepath.Join(path, "src", gitHost, gitUser, gitRepo)
+		futurePath := filepath.Join(codePath, defaultConfPath)
 		projectPath = filepath.Join(codePath, "build")
 		if sFiles.IsFileExist(futurePath) {
 			configFilePath = futurePath
