@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"strings"
 	"github.com/sinlov/golang_utils/jstring"
+	"os"
 )
 
 const REG_JAVA_PKG string = `^[a-z]+[a-z0-9_]+[\.][a-z]+[a-z0-9_]+[\.][a-z]+[a-z0-9_]*$`
@@ -59,4 +60,16 @@ func checkModuleNameAsGradle(forCheckModuleName string) error {
 		return errors.New("module name not name as [ build gradle test app keystore scripts node_module ]")
 	}
 	return nil
+}
+
+func isPathExist(path string) bool {
+	_, err := os.Stat(path)
+	if err != nil {
+		if ! os.IsExist(err) {
+			return false
+		} else {
+			return false
+		}
+	}
+	return true
 }

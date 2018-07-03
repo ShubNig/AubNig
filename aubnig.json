@@ -3,6 +3,7 @@
   "temp": {
     "git": {
       "git_url": "https://github.com/ShubNig/AubNig-Nexus-Template.git",
+      "git_local": "AubNig-Nexus-Template",
       "git_branch": "master",
       "git_tag": ""
     },

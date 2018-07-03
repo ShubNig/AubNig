@@ -18,4 +18,5 @@ type Git struct {
 	GitBranch string `json:"git_branch"`
 	GitTag    string `json:"git_tag"`
 	GitURL    string `json:"git_url"`
+	GitLocal  string `json:"git_local"`
 }

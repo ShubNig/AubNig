@@ -17,7 +17,7 @@ const (
 )
 
 // if not find config Path just try to use GOPATH code github.com/ShubNig/AubNig/config.conf
-// if code aubnig.conf and run root path not found, return ""
+// if code aubnig.json and run root path not found, return ""
 func Try2FindOutConfigPath() (string, string) {
 	configFilePath := filepath.Join(sCli.CommandPath(), "aubnig.json")
 	projectPath := sCli.CurrentDirectory()

@@ -2,6 +2,7 @@
 *.log
 main
 ShubNig*
+build/
 
 ### Go template
 # Binaries for programs and plugins

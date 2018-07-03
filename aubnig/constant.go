@@ -2,6 +2,7 @@ package aubnig
 
 const (
 	DEFAULT_GIT_URL        string = "https://github.com/ShubNig/AubNig-Nexus-Template.git"
+	DEFAULT_GIT_LOCAL      string = "AubNig-Nexus-Template"
 	DEFAULT_GIT_BRANCH     string = "master"
 	DEFAULT_GIT_TAG        string = ""
 	DEFAULT_VERSION_NAME   string = "0.0.1"
