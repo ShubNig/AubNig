@@ -4,6 +4,7 @@ import (
 	"github.com/mkideal/cli"
 	"github.com/ShubNig/AubNig/aubnig"
 	"github.com/sinlov/golang_utils/cfg"
+	"strings"
 )
 
 type makerT struct {
@@ -43,13 +44,29 @@ func (m *Maker) MakeCliDef() *cli.Command {
 			tempUrl := argv.TempURL
 			projectName := argv.ProjectName
 			err := checkCliInputStringParams(projectName, "projectName")
+			if err != nil {
+				return err
+			}
 			group := argv.Group
 			if group == "" {
 				group = aubnig.DEFAULT_GROUP
-
+			} else {
+				err = checkPackageNameAsJava(group)
+				if err != nil {
+					return err
+				}
 			}
 			moduleName := argv.ModuleName
 			err = checkCliInputStringParams(moduleName, "moduleName")
+			if err != nil {
+				return err
+			} else {
+				err = checkModuleNameAsGradle(moduleName)
+				if err != nil {
+					return err
+				}
+				moduleName = strings.ToLower(moduleName)
+			}
 			developerName := argv.DeveloperName
 			err = checkCliInputStringParams(developerName, "developerName")
 			if err != nil {

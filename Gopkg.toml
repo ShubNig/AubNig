@@ -30,8 +30,8 @@
   name = "github.com/mkideal/cli"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/sinlov/golang_utils"
+  version = "1.0.0"
 
 [prune]
   go-tests = true

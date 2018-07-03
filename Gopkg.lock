@@ -53,7 +53,6 @@
   version = "v0.8.0"
 
 [[projects]]
-  branch = "master"
   name = "github.com/sinlov/golang_utils"
   packages = [
     "cfg",
@@ -61,7 +60,8 @@
     "files",
     "jstring"
   ]
-  revision = "120bbe177b040c2a1377db8515c93a49243d6fb9"
+  revision = "4841750affa599bf882efcbabd1ef9d1ea45a808"
+  version = "1.0.0"
 
 [[projects]]
   branch = "master"
@@ -72,6 +72,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a3e455a23b6d9b919bd0de164e3305397146820bc05d4820a651a3d1722ef746"
+  inputs-digest = "eb3e54db076a169940d23013cdc8694a89952fdc78fe1e2479c34ef5e1463801"
   solver-name = "gps-cdcl"
   solver-version = 1
