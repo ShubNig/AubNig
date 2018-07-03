@@ -178,12 +178,26 @@ func (m *Maker) MakeCliDef() *cli.Command {
 			if err != nil {
 				return err
 			}
+			err = copyCodeCatchAndRemoveUselessFile(ctx, m)
+			if err != nil {
+				return err
+			}
+
 			return nil
 		},
 	}
 	return maker
 }
 
+// copy CodeCatch and remove useless file
+func copyCodeCatchAndRemoveUselessFile(context *cli.Context, m *Maker) error {
+
+	return nil
+}
+
+// git download last commit
+// if not download, will download
+// if downloaded, will check last
 func gitDownloadLastCommitByURL(ctx *cli.Context, m *Maker) error {
 	if m.Config.Temp.GitURL == "" {
 		return errors.New("download git url is empty")
