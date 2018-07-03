@@ -1,13 +1,13 @@
 package aubnig
 
 const (
-
-	DEFAULT_GIT_URL      string = "https://github.com/ShubNig/AubNig-Nexus-Template.git"
-	DEFAULT_GIT_BRANCH   string = "master"
-	DEFAULT_GIT_TAG      string = ""
-	DEFAULT_VERSION_NAME string = "0.0.1"
-	DEFAULT_VERSION_CODE int    = 1
-	DEFAULT_GROUP        string = "com.sinlov.android"
+	DEFAULT_GIT_URL        string = "https://github.com/ShubNig/AubNig-Nexus-Template.git"
+	DEFAULT_GIT_BRANCH     string = "master"
+	DEFAULT_GIT_TAG        string = ""
+	DEFAULT_VERSION_NAME   string = "0.0.1"
+	DEFAULT_VERSION_CODE   int    = 1
+	DEFAULT_GROUP          string = "com.sinlov.android"
+	DEFAULT_GRADLE_VERSION string = "3"
 
 	CLI_CHILD_MAKER_NAME        = "maker"
 	CLI_CHILD_MAKER_DESC string = "[ maker ] is AubNig make tools, " +
@@ -15,7 +15,7 @@ const (
 
 	KEY_NODE_AUBNIG string = "AubNigSet"
 	// mode has dev test prd
-	KEY_RUN_MODE    string = "RunMode"
+	KEY_RUN_MODE string = "RunMode"
 
 	KEY_NODE_GIT   string = "GitSet"
 	KEY_GIT_URL    string = "GitTempURL"

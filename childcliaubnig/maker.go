@@ -3,7 +3,6 @@ package childcliaubnig
 import (
 	"github.com/mkideal/cli"
 	"github.com/ShubNig/AubNig/aubnig"
-	"github.com/sinlov/golang_utils/cfg"
 	"strings"
 )
 
@@ -12,21 +11,20 @@ type makerT struct {
 	TempURL       string `cli:"tempUrl" usage:"Choose Temple git URL, this has default read by config.conf" dft:""`
 	TempTAG       string `cli:"t,tempTag" usage:"Choose Temple git tag, this has default read by config.conf" dft:""`
 	ProjectName   string `cli:"p,projectName" usage:"maker new project name" prompt:"Input want build project name"`
-	Group         string `cli:"g,group" usage:"maker group" prompt:"Input group code(default: com.sinlov.android)"`
+	Group         string `cli:"g,group" usage:"maker group" prompt:"Input group code(default aubnig.json: config.temp.group)"`
 	ModuleName    string `cli:"m,moduleName" usage:"maker new out module name" prompt:"Input want build module name"`
-	ArtifactId    string `cli:"i,artifactId" usage:"maker group" prompt:"Input artifact id (default: modulename)"`
-	DeveloperName string `cli:"d,developerName" usage:"maker developer name" prompt:"Input developer name"`
-	VersionName   string `cli:"n,versionName" usage:"maker version name" prompt:"Input version name(default: 0.0.1)"`
-	VersionCode   int    `cli:"c,versionCode" usage:"maker version code" prompt:"Input version code(default: 1)"`
+	ArtifactId    string `cli:"i,artifactId" usage:"maker group" prompt:"Input artifact id (default aubnig.json: moduleName)"`
+	DeveloperName string `cli:"d,developerName" usage:"maker developer name" prompt:"Input developer name (default aubnig.json: config.temp.developer_name)"`
+	VersionName   string `cli:"n,versionName" usage:"maker version name" prompt:"Input version name(default aubnig.json: config.temp.version_name)"`
+	VersionCode   int    `cli:"c,versionCode" usage:"maker version code" prompt:"Input version code(default aubnig.json: config.temp.version_code)"`
 }
 
 type Maker struct {
+	Config      aubnig.ConfAubNig
 	RunMode     string
 	CodePath    string
 	ProjectPath string
 }
-
-var cfgFile = new(cfg.Cfg)
 
 // runMode dev or prod
 // codeCatchPath codeCatchPath
@@ -49,7 +47,10 @@ func (m *Maker) MakeCliDef() *cli.Command {
 			}
 			group := argv.Group
 			if group == "" {
-				group = aubnig.DEFAULT_GROUP
+				group = m.Config.Temp.Group
+				if group == "" {
+					group = aubnig.DEFAULT_GROUP
+				}
 			} else {
 				err = checkPackageNameAsJava(group)
 				if err != nil {
@@ -67,7 +68,11 @@ func (m *Maker) MakeCliDef() *cli.Command {
 				}
 				moduleName = strings.ToLower(moduleName)
 			}
+			cfgTemp := m.Config.Temp
 			developerName := argv.DeveloperName
+			if developerName == "" {
+				developerName = cfgTemp.DeveloperName
+			}
 			err = checkCliInputStringParams(developerName, "developerName")
 			if err != nil {
 				return err
@@ -78,17 +83,23 @@ func (m *Maker) MakeCliDef() *cli.Command {
 			}
 			versionName := argv.VersionName
 			if versionName == "" {
-				versionName = aubnig.DEFAULT_VERSION_NAME
+				versionName = cfgTemp.VersionName
+				if versionName == "" {
+					versionName = aubnig.DEFAULT_VERSION_NAME
+				}
 			}
 			versionCode := argv.VersionCode
 			if versionCode == 0 {
-				versionCode = aubnig.DEFAULT_VERSION_CODE
+				versionCode = cfgTemp.VersionCode
+				if versionCode == 0 {
+					versionCode = aubnig.DEFAULT_VERSION_CODE
+				}
 			}
 			if tempUrl == "" {
-				gitTempUrl := cfgFile.Read(aubnig.KEY_NODE_GIT, aubnig.KEY_GIT_URL)
-				tempUrl = gitTempUrl
+				tempUrl = cfgTemp.Git.GitURL
 			}
 
+			// for dev mode URL
 			if m.RunMode == "dev" {
 				tempUrl = aubnig.DEFAULT_GIT_URL
 			}
@@ -105,6 +116,7 @@ func (m *Maker) MakeCliDef() *cli.Command {
 			ctx.String("version Name : %v\n", versionName)
 			ctx.String("version Code : %v\n", versionCode)
 			ctx.String("=== Your setting end ===\n")
+
 			return nil
 		},
 	}

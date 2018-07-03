@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	defaultConfPath = "aubnig.conf"
+	defaultConfPath = "aubnig.json"
 	gitRepo         = "AubNig"
 	gitUser         = "ShubNig"
 	gitHost         = "github.com"
@@ -19,12 +19,12 @@ const (
 // if not find config Path just try to use GOPATH code github.com/ShubNig/AubNig/config.conf
 // if code aubnig.conf and run root path not found, return ""
 func Try2FindOutConfigPath() (string, string) {
-	configFilePath := filepath.Join(sCli.CommandPath(), "aubnig.conf")
+	configFilePath := filepath.Join(sCli.CommandPath(), "aubnig.json")
 	projectPath := sCli.CurrentDirectory()
 	if sFiles.IsFileExist(configFilePath) {
 		return configFilePath, projectPath
 	}
-	fmt.Printf("\nWarning!\nCan not find config.conf file at aubnig path: %s\n", sCli.CommandPath())
+	fmt.Printf("\nWarning!\nCan not find aubnig.json file at aubnig path: %s\n", sCli.CommandPath())
 	goPathEnv := os.Getenv("GOPATH")
 	goPathEnvS := strings.Split(goPathEnv, ":")
 	isFindDevConf := false

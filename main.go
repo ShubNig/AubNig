@@ -4,7 +4,6 @@ import (
 	"github.com/mkideal/cli"
 	"os"
 	"fmt"
-	"github.com/sinlov/golang_utils/cfg"
 	"github.com/ShubNig/AubNig/aubnig"
 	"github.com/ShubNig/AubNig/childcliaubnig"
 )
@@ -18,7 +17,7 @@ var projectPath string
 var codeCatchPath string
 
 var help = cli.HelpCommand("display help information")
-var cfgFile = new(cfg.Cfg)
+var jsonCfg = new(aubnig.CfgAub)
 
 type rootT struct {
 	cli.Helper
@@ -50,11 +49,14 @@ func main() {
 	if configFilePath == "" {
 		os.Exit(1)
 	} else {
-		cfgFile.InitCfg(configFilePath)
+		err := jsonCfg.InitJsonCfg(configFilePath)
+		if err != nil {
+			fmt.Printf("init JsonConfig err %s\n", err.Error())
+			os.Exit(1)
+		}
 	}
-	runMode = cfgFile.Read(aubnig.KEY_NODE_AUBNIG, aubnig.KEY_RUN_MODE)
-	if runMode == "dev" {
-		fmt.Printf("===> now in %s mode all setting will be default <===\n", runMode)
+	if jsonCfg.IsDebug {
+		fmt.Printf("===> now in %v mode all setting will be default <===\n", jsonCfg.ConfAubNig.RunMode)
 		projectPath = findProjectPath
 	}
 	catchPath, err := aubnig.InitCatchPath()
@@ -67,6 +69,7 @@ func main() {
 		RunMode:     runMode,
 		CodePath:    codeCatchPath,
 		ProjectPath: projectPath,
+		Config:      jsonCfg.ReadConfig(),
 	}
 	if err := cli.Root(root,
 		cli.Tree(help),
